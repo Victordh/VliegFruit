@@ -18,6 +18,8 @@ def sort_numbers(s):
             s[j+1] = s[j]
             s[j] = temp
             j = j - 1
+    # prints final (correct) list
+    f.write(str(s) + "\n")
     f.write("Amount of steps needed: " + str(count))
     return s
 
