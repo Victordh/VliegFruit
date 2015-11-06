@@ -4,7 +4,6 @@ def insertion_sort(s):
     # append ('a') doesn't overwrite the already existing file
     f = open('out.txt', 'a')
     
-    #counter = 0
     for i in range(1, len(s)):
         val = s[i]
         j = i - 1
