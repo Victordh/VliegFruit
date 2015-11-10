@@ -25,10 +25,6 @@ def insertion_sort(list):
 
 # swaps in list [list] the position of the [size] amount of numbers starting on position [pos]
 def swap(size, pos, list):
-    # append ('a') doesn't overwrite the already existing file
-    f = open('out.txt', 'a')
-    
-    f.write(str(list) + "\n")
     global_variables.counter += 1
     y = []
     count = 0
@@ -40,10 +36,24 @@ def swap(size, pos, list):
     while count < size:
         list[count + pos] = y[count]
         count += 1
+    return list
+
+
+def selection_sort(list):
+    # append ('a') doesn't overwrite the already existing file
+    f = open('out.txt', 'a')
+    
+    # appends the starting list
     f.write(str(list) + "\n")
+    
+    for i in range(1, len(list)):
+        # if number isn't on the right spot yet, swaps once so it is and appends the new list
+        if i != list[i - 1]:
+            swap(list.index(i) + 1 - (i - 1), i - 1, list)
+            f.write(str(list) + "\n")
+    
     f.write("Amount of steps needed: " + str(global_variables.counter))
     f.write("\n\n")
-    return list
     
     # closes the output file
     f.close()
