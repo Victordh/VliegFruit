@@ -25,3 +25,18 @@ for i in range(25):
     
     # reset the global variable best
     global_variables.best = 999
+
+genoom_van_de_site = 23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9
+genoom_van_de_site = list(genoom_van_de_site)
+duplicate = list(genoom_van_de_site)
+
+# get a result with selection_sort (18) (other group has 16)
+global_variables.counter = 0
+selection_sort(genoom_van_de_site)
+
+# try to get a better result with insertion_sort (doesn't work)
+global_variables.counter = 0
+insertion_sort(duplicate)
+
+# reset the global variable best
+global_variables.best = 999
