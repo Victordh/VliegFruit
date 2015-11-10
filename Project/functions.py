@@ -10,6 +10,7 @@ def insertion_sort(list):
         j = i - 1
         while (j >= 0) and (list[j] > val):
             
+            # abort if more steps than previous attempt on same list
             if global_variables.counter > global_variables.best:
                 f.write("Broken out after " + str(global_variables.counter) + " steps because it's more than " + str(global_variables.best))
                 f.write("\n\n")
@@ -21,11 +22,13 @@ def insertion_sort(list):
             list[j+1] = list[j]
             list[j] = temp
             j = j - 1
+    
     # prints final (correct) list
     f.write(str(list) + "\n")
     f.write("Amount of steps needed: " + str(global_variables.counter))
     f.write("\n\n")
     
+    # updates global variable best if best attempt on this list up until now
     if global_variables.counter < global_variables.best:
         global_variables.best = global_variables.counter
     
@@ -39,11 +42,13 @@ def swap(size, pos, list):
     global_variables.counter += 1
     y = []
     count = 0
+    
     while count < size:
         y.append(list[count + pos])
         count += 1
     y.reverse()
     count = 0
+    
     while count < size:
         list[count + pos] = y[count]
         count += 1
@@ -58,6 +63,8 @@ def selection_sort(list):
     f.write(str(list) + "\n")
     
     for i in range(1, len(list)):
+        
+        # abort if more steps than previous attempt on same list
         if global_variables.counter > global_variables.best:
             f.write("Broken out after " + str(global_variables.counter) + " steps because it's more than " + str(global_variables.best))
             f.write("\n\n")
@@ -71,8 +78,12 @@ def selection_sort(list):
     f.write("Amount of steps needed: " + str(global_variables.counter))
     f.write("\n\n")
     
+    # updates global variable best if best attempt on this list up until now
     if global_variables.counter < global_variables.best:
         global_variables.best = global_variables.counter
     
     # closes the output file
     f.close()
+
+#def short_list(list):
+    # if numbers are already on the correct spot (only at start or end), make the list shorter and use the shorter one instead
