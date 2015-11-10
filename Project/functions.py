@@ -1,51 +1,49 @@
 import global_variables
 
-def insertion_sort(s):
+def insertion_sort(list):
     # append ('a') doesn't overwrite the already existing file
     f = open('out.txt', 'a')
     
-    for i in range(1, len(s)):
-        val = s[i]
+    for i in range(1, len(list)):
+        val = list[i]
         j = i - 1
-        while (j >= 0) and (s[j] > val):
-            f.write(str(s) + "\n")
+        while (j >= 0) and (list[j] > val):
+            f.write(str(list) + "\n")
             global_variables.counter += 1
-            temp = s[j+1]
-            s[j+1] = s[j]
-            s[j] = temp
+            temp = list[j+1]
+            list[j+1] = list[j]
+            list[j] = temp
             j = j - 1
     # prints final (correct) list
-    f.write(str(s) + "\n")
+    f.write(str(list) + "\n")
     f.write("Amount of steps needed: " + str(global_variables.counter))
     f.write("\n\n")
-    return s
+    return list
     
     # closes the output file
     f.close()
 
-# swaps in list [s] the position of the [size] amount of numbers starting on position [pos]
-def swap(size, pos, s):
+# swaps in list [list] the position of the [size] amount of numbers starting on position [pos]
+def swap(size, pos, list):
     # append ('a') doesn't overwrite the already existing file
     f = open('out.txt', 'a')
     
-    f.write(str(s) + "\n")
+    f.write(str(list) + "\n")
     global_variables.counter += 1
     y = []
     count = 0
     while count < size:
-        y.append(s[count + pos])
+        y.append(list[count + pos])
         count += 1
-    #print y
     y.reverse()
-    #print y
     count = 0
     while count < size:
-        s[count + pos] = y[count]
+        list[count + pos] = y[count]
         count += 1
-    f.write(str(s) + "\n")
+    f.write(str(list) + "\n")
     f.write("Amount of steps needed: " + str(global_variables.counter))
     f.write("\n\n")
-    return s
+    return list
     
     # closes the output file
     f.close()
