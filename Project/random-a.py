@@ -9,5 +9,5 @@ random_list = random.sample(xrange(1, 26), 25)
 
 # hier worden er 100 geprint, misschien niet nodig
 for i in range(100):
-	n_random_list = random.sample(xrange(1, 26), 25)
-	#print n_random_list
+    n_random_list = random.sample(xrange(1, 26), 25)
+    #print n_random_list
