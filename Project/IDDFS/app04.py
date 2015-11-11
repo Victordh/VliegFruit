@@ -7,12 +7,12 @@ class Node(object):
 		self.steps = 0;
 
 # Depth First Search function
-def dfs(node, totalDepth, maxDepth):
+def dfs(node, limitDepth, currentDepth):
 
 	# What to look for?
 	goal = "D";
-	# If maxDepth is 0 there wont be a search
-	if (maxDepth <= 0):
+	# If currentDepth is 0 there wont be a search
+	if (currentDepth <= 0):
 		return;
 
 	node.visited = True;
@@ -25,25 +25,19 @@ def dfs(node, totalDepth, maxDepth):
 			# Check if this is what we are looking for
 			if (n.current == goal):
 				print("Found with %s step(s)" % n.steps);
-				return totalDepth - 1;
-			# Recall's itself to go deeper in the tree 
-			dfs(n, totalDepth, maxDepth);
+				return limitDepth - 1;
+			# Recalls itself to go deeper in the tree 
+			dfs(n, limitDepth, currentDepth);
 	#This is returned to set a new limit on the last (and so shorted) solution
-	return totalDepth;
+	return limitDepth;
 
-# actually maxdepth and totaldepth are not what they seem to be. 
-# totaldepth = the depth it should maximally go a.k.a the limit.
-# maxdepth = sort of counter that keeps track on how "deep" it is now.
-
-
-def iterativeDeepeningDepthFirstSearch(node, totalDepth, maxDepth):
+def iterativeDeepeningDepthFirstSearch(node, limitDepth, currentDepth):
 	#While the current depth < the limited depth do:
-	while(maxDepth < totalDepth):
-		print("totaldepth = %s" % totalDepth)
-		totalDepth = dfs(node, totalDepth, maxDepth);
+	while(currentDepth < limitDepth):
+		print("limitDepth = %s" % limitDepth)
+		limitDepth = dfs(node, limitDepth, currentDepth);
 		
-		maxDepth += 1;
-
+		currentDepth += 1;
 
 node1 = Node("A");
 
@@ -85,7 +79,6 @@ node14 = Node("D")   # This is the goal we find first
 
 # node14 = Node(123)
 
-
 #Index for which layer a node is in the tree.
 node1.steps = (0);
 node2.steps = (1);
@@ -101,7 +94,6 @@ node11.steps = (2);
 node12.steps = (2);
 node13.steps = (2);
 node14.steps = (3);
-
 
 # Creates neighbours of nodes (our test tree)
 node1.neighbours.append(node2);
