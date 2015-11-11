@@ -1,7 +1,6 @@
 # VliegFruit
 Project voor Heuristieken (Minor Programmeren) van team VliegFruit
 
-
 <H5>Youtube Video to Learn a Depth First Search implementation in python:</H5>
 https://www.youtube.com/watch?v=vrc3DfRf5Tk
 
