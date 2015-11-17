@@ -21,8 +21,8 @@ def move(count, genome, l_goal, bound, visited):
 		return False
 
 	# Het interval op range is een beperking van de maximale swap "size"
-	for i in range(2, 4): #len(genome) + 1   <<=== de "normale" range
-
+	for i in range(2, 5): #len(genome) + 1   <<=== de "normale" range
+		#print i
 		for j in range(len(genome) - i + 1):
 			new_genome = swap(i, j, list(genome))
 
