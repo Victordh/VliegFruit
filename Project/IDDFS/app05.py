@@ -6,7 +6,7 @@ def swap(size, pos, genome):
     while count < size:
         y.append(genome[count + pos])
         count += 1
-    #print y
+    print y
     y.reverse()
     #print y
     count = 0
