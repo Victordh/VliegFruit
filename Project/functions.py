@@ -1,89 +1,89 @@
 import global_variables
 
-def insertion_sort(list):
+def insertion_sort(genome):
     # append ('a') doesn't overwrite the already existing file
     f = open('out.txt', 'a')
     
-    for i in range(1, len(list)):
+    for i in range(1, len(genome)):
         
-        val = list[i]
+        val = genome[i]
         j = i - 1
-        while (j >= 0) and (list[j] > val):
+        while (j >= 0) and (genome[j] > val):
             
-            # abort if more steps than previous attempt on same list
+            # abort if more steps than previous attempt on same genome
             if global_variables.counter > global_variables.best:
                 f.write("Broken out after " + str(global_variables.counter) + " steps because it's more than " + str(global_variables.best))
                 f.write("\n\n")
-                return list
+                return genome
             
-            f.write(str(list) + "\n")
+            f.write(str(genome) + "\n")
             global_variables.counter += 1
-            temp = list[j+1]
-            list[j+1] = list[j]
-            list[j] = temp
+            temp = genome[j+1]
+            genome[j+1] = genome[j]
+            genome[j] = temp
             j = j - 1
     
-    # prints final (correct) list
-    f.write(str(list) + "\n")
+    # prints final (correct) genome
+    f.write(str(genome) + "\n")
     f.write("Amount of steps needed: " + str(global_variables.counter))
     f.write("\n\n")
     
-    # updates global variable best if best attempt on this list up until now
+    # updates global variable best if best attempt on this genome up until now
     if global_variables.counter < global_variables.best:
         global_variables.best = global_variables.counter
     
-    return list
+    return genome
     
     # closes the output file
     f.close()
 
-# swaps in list [list] the position of the [size] amount of numbers starting on position [pos]
-def swap(size, pos, list):
+# swaps in genome [genome] the position of the [size] amount of numbers starting on position [pos]
+def swap(size, pos, genome):
     global_variables.counter += 1
     y = []
     count = 0
     
     while count < size:
-        y.append(list[count + pos])
+        y.append(genome[count + pos])
         count += 1
     y.reverse()
     count = 0
     
     while count < size:
-        list[count + pos] = y[count]
+        genome[count + pos] = y[count]
         count += 1
-    return list
+    return genome
 
 
-def selection_sort(list):
+def selection_sort(genome):
     # append ('a') doesn't overwrite the already existing file
     f = open('out.txt', 'a')
     
-    # appends the starting list
-    f.write(str(list) + "\n")
+    # appends the starting genome
+    f.write(str(genome) + "\n")
     
-    for i in range(1, len(list)):
+    for i in range(1, len(genome)):
         
-        # abort if more steps than previous attempt on same list
+        # abort if more steps than previous attempt on same genome
         if global_variables.counter > global_variables.best:
             f.write("Broken out after " + str(global_variables.counter) + " steps because it's more than " + str(global_variables.best))
             f.write("\n\n")
-            return list
+            return genome
         
-        # if number isn't on the right spot yet, swaps once so it is and appends the new list
-        if i != list[i - 1]:
-            swap(list.index(i) + 1 - (i - 1), i - 1, list)
-            f.write(str(list) + "\n")
+        # if number isn't on the right spot yet, swaps once so it is and appends the new genome
+        if i != genome[i - 1]:
+            swap(genome.index(i) + 1 - (i - 1), i - 1, genome)
+            f.write(str(genome) + "\n")
     
     f.write("Amount of steps needed: " + str(global_variables.counter))
     f.write("\n\n")
     
-    # updates global variable best if best attempt on this list up until now
+    # updates global variable best if best attempt on this genome up until now
     if global_variables.counter < global_variables.best:
         global_variables.best = global_variables.counter
     
     # closes the output file
     f.close()
 
-#def short_list(list):
-    # if numbers are already on the correct spot (only at start or end), make the list shorter and use the shorter one instead
+#def shorten_genome(genome):
+    # if numbers are already on the correct spot (only at start or end), make the genome shorter and use the shorter one instead
