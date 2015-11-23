@@ -1,4 +1,5 @@
 import global_variables
+import random
 
 def insertion_sort(genome):
     # append ('a') doesn't overwrite the already existing file
@@ -54,6 +55,11 @@ def swap(size, pos, genome):
         count += 1
     return genome
 
+# takes a genome and returns it with part of random size at random position inverted
+def random_inversion(genome):
+    random_size = random.randint(2,25)
+    random_pos = random.randint(0, 25 - random_size)
+    return swap(random_size, random_pos, genome)
 
 def selection_sort(genome):
     # append ('a') doesn't overwrite the already existing file
