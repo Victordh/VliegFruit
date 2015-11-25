@@ -57,9 +57,17 @@ def swap(size, pos, genome):
 
 # takes a genome and returns it with part of random size at random position inverted
 def random_inversion(genome):
-    random_size = random.randint(2,25)
-    random_pos = random.randint(0, 25 - random_size)
+    random_size = random.randint(2,len(genome))
+    random_pos = random.randint(0, len(genome) - random_size)
     return swap(random_size, random_pos, genome)
+
+# takes a genome and returns the calculated index (the sum of the distance of each gen to its correct place)
+def index_of(genome):
+    index = 0
+    for i in range(len(genome)):
+        temp = abs(genome.index(i + 1) - i)
+        index += temp
+    return index
 
 def selection_sort(genome):
     # append ('a') doesn't overwrite the already existing file
