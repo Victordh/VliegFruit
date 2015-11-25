@@ -1,5 +1,6 @@
 import global_variables
 from functions import *
+from sorts import *
 import random
 
 global_variables.initialise()
