@@ -27,7 +27,7 @@ def random_inversion(genome):
     return swap(random_size, random_pos, genome)
 
 # takes a genome and returns the calculated index (the sum of the distance of each gen to its correct place)
-def index_of(genome):
+def sum_distance_gens(genome):
     index = 0
     for i in range(len(genome)):
         temp = abs(genome.index(i + 1) - i)
