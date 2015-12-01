@@ -50,12 +50,9 @@ def sum_distance_neighbours(genome):
         sum += temp
     return sum
 
-genome = [[1], [2], [3], [5], [6], [4], [7], [9], [8], [10]]
-genome2 = [[5], [4], [3], [1], [2], [8], [10], [9], [6], [7]]
-
 # takes a genome and returns it with neighbours that should be next to
-# eachother merged
-def merge_correct_neighbours(genome, i):
+# eachother merged (default value of i (0) shouldn't have to be changed)
+def merge_correct_neighbours(genome, i = 0):
     better = list(genome)
     if i < (len(genome) - 1):
         # merges if element on the right is 1 higher than current element
@@ -72,19 +69,6 @@ def merge_correct_neighbours(genome, i):
         else:
             merge_correct_neighbours(genome, i + 1)
     return genome
-
-# better = list(genome)
-# print better
-# print genome[0][len(genome[0]) - 1]
-# print genome[0 + 1][0]
-# print genome[1][len(genome[1]) - 1]
-# print genome[1 + 1][0]
-# better[0] = genome[0] + genome[1]
-# print better
-# better.pop(1)
-# print better
-print merge_correct_neighbours(genome, 0)
-print merge_correct_neighbours(genome2, 0)
 
 #def shorten_genome(genome):
     # if numbers are already on the correct spot (only at start or end),
