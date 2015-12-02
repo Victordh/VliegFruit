@@ -14,6 +14,7 @@ for i in range(25):
         
     # create a random list of length 25 (and a duplicate of it)
     n_random_list = random.sample(xrange(1, 26), 25)
+    n_random_list = [n_random_list[i : i+1] for i in range(len(n_random_list))]
     duplicate = list(n_random_list)
     
     # get a result with selection_sort
