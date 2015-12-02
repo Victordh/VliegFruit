@@ -29,16 +29,16 @@ def random_inversion(genome):
 # takes a genome and returns the calculated index (the sum of the distance of
 # each gen to its correct place)
 def sum_distance_correct_spot(genome):
-    sum = 0
+    Sum = 0
     for i in range(len(genome)):
         temp = abs(genome.index(i + 1) - i)
-        sum += temp
-    return sum
+        Sum += temp
+    return Sum
 
 # calculates the sum of the distance between each gen and the neighbours it is
 # supposed to have
 def sum_distance_neighbours(genome):
-    sum = 0
+    Sum = 0
     for i in range(len(genome)):
         if i == 0:
             temp = abs(genome.index(i + 1) - genome.index(i + 2))
@@ -47,8 +47,8 @@ def sum_distance_neighbours(genome):
         else:
             temp = abs(genome.index(i + 1) - genome.index(i))
             temp += abs(genome.index(i + 1) - genome.index(i + 2))
-        sum += temp
-    return sum
+        Sum += temp
+    return Sum
 
 #def shorten_genome(genome):
     # if numbers are already on the correct spot (only at start or end),

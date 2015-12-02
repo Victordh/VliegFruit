@@ -40,31 +40,6 @@ def swap(size, pos, listx):
 #         print swap(size, pos, listx)    
 
 
-listx = [1, 2, 4, 3, 5, 6, 7]
-listy = [1, 2, 3, 4, 5, 6, 7]
-LEN = len(listx)
-print listx
-if listx[0] == listy[0]:
-    listx = listx[1:LEN]
-    listy = listy[1:LEN]
-    print listx
-    print listy
-if listx[(len(listx) - 1)] == listy[(len(listy) - 1)]:
-    listx = listx[0:(len(listx) - 1)] 
-    listy = listy[0:(len(listy) - 1)]   
-    print listx  
-    print listy 
-LEN = len(listx)
-if listx[0] == listy[0]:
-    listx = listx[1:LEN]
-    listy = listy[1:LEN]
-    print listx
-    print listy
-if listx[(len(listx) - 1)] == listy[(len(listy) - 1)]:
-    listx = listx[0:(len(listx) - 1)] 
-    listy = listy[0:(len(listy) - 1)]   
-    print listx  
-    print listy 
     
 
      

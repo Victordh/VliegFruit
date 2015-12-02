@@ -1,3 +1,4 @@
+# "Locks" begin en einde als ze al op de juiste plek staan. 
 
 # expected output: [5, 6, 4, 8, 7]
 # listx = [1, 2, 3, 5, 6, 4, 8, 7, 9, 10]
