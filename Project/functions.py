@@ -38,14 +38,22 @@ def random_inversion(genome):
     random_pos = random.randint(0, len(genome) - random_size)
     return swap(random_size, random_pos, genome)
 
-# takes a genome and returns the calculated index (the sum of the distance of
-# each gen to its correct place)
-def sum_distance_correct_spot(genome):
-    Sum = 0
+# takes a genome and returns the calculated total of the distance of each gen
+# to its correct place
+def total_distance_correct_spot(genome):
+    total = 0
+    length = 0
     for i in range(len(genome)):
-        temp = abs(genome.index(i + 1) - i)
-        Sum += temp
-    return Sum
+        for j in range(len(genome[i])):
+            length += 1
+            temp = abs(genome[i][j] - length)
+            total += temp
+    return total
+
+n_random_list = random.sample(xrange(1, 11), 10)
+n_random_list = [n_random_list[i : i+1] for i in range(len(n_random_list))]
+print n_random_list
+print total_distance_correct_spot(n_random_list)
 
 # calculates the sum of the distance between each gen and the neighbours it is
 # supposed to have
