@@ -14,6 +14,7 @@ for i in range(25):
         
     # create a random list of length 25 (and a duplicate of it)
     n_random_list = random.sample(xrange(1, 26), 25)
+    n_random_list = [n_random_list[i : i+1] for i in range(len(n_random_list))]
     duplicate = list(n_random_list)
     
     # get a result with selection_sort
@@ -29,6 +30,7 @@ for i in range(25):
 
 genoom_van_de_site = 23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9
 genoom_van_de_site = list(genoom_van_de_site)
+genoom_van_de_site = [genoom_van_de_site[i : i+1] for i in range(len(genoom_van_de_site))]
 duplicate = list(genoom_van_de_site)
 
 # get a result with selection_sort (18) (other group has 16)
