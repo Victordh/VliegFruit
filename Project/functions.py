@@ -40,7 +40,7 @@ def random_inversion(genome):
 
 # takes a genome and returns the calculated total of the distance of each gen
 # to its correct place
-def total_distance_correct_spot(genome):
+def total_distance_gen_correct(genome):
     total = 0
     length = 0
     for i in range(len(genome)):
