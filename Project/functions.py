@@ -29,16 +29,16 @@ def random_inversion(genome):
 # takes a genome and returns the calculated index (the sum of the distance of
 # each gen to its correct place)
 def sum_distance_correct_spot(genome):
-    sum = 0
+    Sum = 0
     for i in range(len(genome)):
         temp = abs(genome.index(i + 1) - i)
-        sum += temp
-    return sum
+        Sum += temp
+    return Sum
 
 # calculates the sum of the distance between each gen and the neighbours it is
 # supposed to have
 def sum_distance_neighbours(genome):
-    sum = 0
+    Sum = 0
     for i in range(len(genome)):
         if i == 0:
             temp = abs(genome.index(i + 1) - genome.index(i + 2))
@@ -47,8 +47,68 @@ def sum_distance_neighbours(genome):
         else:
             temp = abs(genome.index(i + 1) - genome.index(i))
             temp += abs(genome.index(i + 1) - genome.index(i + 2))
-        sum += temp
-    return sum
+        Sum += temp
+    return Sum
+
+# takes a genome and returns it with neighbours that should be next to
+# eachother merged (default value of i (0) shouldn't have to be changed)
+def merge_correct_neighbours(genome, i = 0):
+    better = list(genome)
+    if i < (len(genome) - 1):
+        # merges if element on the right is 1 higher than current element
+        if (genome[i][len(genome[i]) - 1] == genome[i + 1][0] - 1):
+            genome[i] = genome[i] + genome[i + 1]
+            genome.pop(i + 1)
+            merge_correct_neighbours(genome, i)
+        # merges if element on the right is 1 lower than current element
+        elif(genome[i][len(genome[i]) - 1] == genome[i + 1][0] + 1):
+            genome[i] = genome[i] + genome[i + 1]
+            genome.pop(i + 1)
+            merge_correct_neighbours(genome, i)
+        # moves to the next element
+        else:
+            merge_correct_neighbours(genome, i + 1)
+    return genome
+
+# takes a genome and returns it with neighbours that should be next to
+# eachother merged (default value of i (0) shouldn't have to be changed)
+def merge_correct_neighbours(genome, i = 0):
+    better = list(genome)
+    if i < (len(genome) - 1):
+        # merges if element on the right is 1 higher than current element
+        if (genome[i][len(genome[i]) - 1] == genome[i + 1][0] - 1):
+            genome[i] = genome[i] + genome[i + 1]
+            genome.pop(i + 1)
+            merge_correct_neighbours(genome, i)
+        # merges if element on the right is 1 lower than current element
+        elif(genome[i][len(genome[i]) - 1] == genome[i + 1][0] + 1):
+            genome[i] = genome[i] + genome[i + 1]
+            genome.pop(i + 1)
+            merge_correct_neighbours(genome, i)
+        # moves to the next element
+        else:
+            merge_correct_neighbours(genome, i + 1)
+    return genome
+
+# takes a genome and returns it with neighbours that should be next to
+# eachother merged (default value of i (0) shouldn't have to be changed)
+def merge_correct_neighbours(genome, i = 0):
+    better = list(genome)
+    if i < (len(genome) - 1):
+        # merges if element on the right is 1 higher than current element
+        if (genome[i][len(genome[i]) - 1] == genome[i + 1][0] - 1):
+            genome[i] = genome[i] + genome[i + 1]
+            genome.pop(i + 1)
+            merge_correct_neighbours(genome, i)
+        # merges if element on the right is 1 lower than current element
+        elif(genome[i][len(genome[i]) - 1] == genome[i + 1][0] + 1):
+            genome[i] = genome[i] + genome[i + 1]
+            genome.pop(i + 1)
+            merge_correct_neighbours(genome, i)
+        # moves to the next element
+        else:
+            merge_correct_neighbours(genome, i + 1)
+    return genome
 
 # takes a genome and returns it with neighbours that should be next to
 # eachother merged (default value of i (0) shouldn't have to be changed)

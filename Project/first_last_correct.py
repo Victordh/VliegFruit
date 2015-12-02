@@ -57,5 +57,3 @@ if listy[(len(listy) - 1)] == list_goal[(len(list_goal) - 1)]:
     # print listy  
 print listy #list after removing the first 2 and the last 2 from list if already right position
 
-
-
