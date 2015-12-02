@@ -50,11 +50,6 @@ def total_distance_correct_spot(genome):
             total += temp
     return total
 
-n_random_list = random.sample(xrange(1, 11), 10)
-n_random_list = [n_random_list[i : i+1] for i in range(len(n_random_list))]
-print n_random_list
-print total_distance_correct_spot(n_random_list)
-
 # calculates the sum of the distance between each gen and the neighbours it is
 # supposed to have
 def sum_distance_neighbours(genome):
