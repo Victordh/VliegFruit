@@ -15,8 +15,6 @@ def swap(size, pos, genome):
     y.reverse()
     count = 0
     
-    print y
-    
     # reverses merged lists
     for i in range(len(y)):
         z = []
