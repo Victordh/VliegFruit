@@ -214,12 +214,12 @@ class State_String(State):
         if (swap(len(copy.copy(self.value)),0, copy.copy(self.value)) != self.goal):
             for i in range(len(self.value)):
                 if (self.value[i] != i + 1):
-                    distance += 0.5
+                    distance += 1
                 if (self.value[i] != len(self.value) - i):
-                    distance -= 0.25
+                    distance -= 1
             distance = distance #/ 2.0
         #print math.ceil(distance) + len(self.path)
-        return math.floor(distance) + len(self.path)
+        return math.ceil(distance) + len(self.path)
 
     def CreateChildren(self):
         if not self.children:
@@ -274,8 +274,8 @@ if __name__ == '__main__':
     #start1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
     #start1 = [10, 3, 5, 12, 6, 8, 11, 4, 7, 2, 9, 1]
     #start1 = [10, 3, 11, 5, 6, 8, 4, 9, 7, 2, 1]
-    start1 = [5, 3, 7, 4, 1, 6, 9, 2, 10, 8]
-    #start1= [3, 2, 5, 10, 4, 8, 1, 9, 6, 7]
+    #start1 = [5, 3, 7, 4, 1, 6, 9, 2, 10, 8]
+    start1= [7, 9, 11, 10, 8, 6]
     #print "    )", start1
     print start1
     goal1 = range(1, len(start1) + 1)
