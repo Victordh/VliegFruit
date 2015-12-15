@@ -4,24 +4,13 @@ import random
 # swaps in genome [genome] the position of the [size] amount of numbers
 # starting on position [pos]
 def swap(size, pos, genome):
-    global_variables.counter += 1
     y = []
     
     count = 0
-    
     while count < size:
         y.append(genome[count + pos])
         count += 1
     y.reverse()
-    count = 0
-    
-    # reverses merged lists
-    for i in range(len(y)):
-        z = []
-        for j in range(len(y[i])):
-            z.append(y[i][j])
-        z.reverse()
-        y[i] = z
     
     count = 0
     while count < size:
@@ -40,18 +29,15 @@ def random_inversion(genome):
 # to its correct place
 def total_distance_gen_correct(genome):
     total = 0
-    length = 0
     for i in range(len(genome)):
-        for j in range(len(genome[i])):
-            length += 1
-            temp = abs(genome[i][j] - length)
-            total += temp
+        temp = abs(genome.index(i + 1) - i)
+        total += temp
     return total
 
-# calculates the sum of the distance between each gen and the neighbours it is
+# calculates the total of the distance between each gen and the neighbours it is
 # supposed to have
-def sum_distance_neighbours(genome):
-    Sum = 0
+def total_distance_neighbours(genome):
+    total = 0
     for i in range(len(genome)):
         if i == 0:
             temp = abs(genome.index(i + 1) - genome.index(i + 2))
@@ -60,8 +46,8 @@ def sum_distance_neighbours(genome):
         else:
             temp = abs(genome.index(i + 1) - genome.index(i))
             temp += abs(genome.index(i + 1) - genome.index(i + 2))
-        Sum += temp
-    return Sum
+        total += temp
+    return total
 
 # takes a genome and returns it with neighbours that should be next to
 # eachother merged (default value of i (0) shouldn't have to be changed)
@@ -82,7 +68,3 @@ def merge_correct_neighbours(genome, i = 0):
         else:
             merge_correct_neighbours(genome, i + 1)
     return genome
-
-#def shorten_genome(genome):
-    # if numbers are already on the correct spot (only at start or end),
-    # make the genome shorter and use the shorter one instead
