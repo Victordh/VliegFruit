@@ -200,26 +200,44 @@ class State_String(State):
     #         dist_rev += abs((len(self.value) - 1 - i) - self.value.index(gen))  #+ f1(self.value) #+ check_neighbours(self.value)
 
     #     return min(dist, dist_rev) + len(self.path)
+    
 
     #Method 5: 
+    # def GetDist(self):
+    #     distance = 0
+    #     if self.value == self.goal:
+    #         return 0
+    #     #print self.value
+    #     if (swap(len(copy.copy(self.value)),0, copy.copy(self.value)) == self.goal):
+    #         distance = 1 
+    #         return distance + len(self.path)
+
+    #     if (swap(len(copy.copy(self.value)),0, copy.copy(self.value)) != self.goal):
+    #         for i in range(len(self.value)):
+    #             if (self.value[i] != i + 1):
+    #                 distance += 1
+    #             if (self.value[i] != len(self.value) - i):
+    #                 distance -= 1
+    #         distance = distance #/ 2.0
+    #     #print math.ceil(distance) + len(self.path)
+    #     return math.ceil(distance) + len(self.path)
+    
+        #Method 6:    13 Steps !!!
     def GetDist(self):
         distance = 0
-        if self.value == self.goal:
-            return 0
-        #print self.value
-        if (swap(len(copy.copy(self.value)),0, copy.copy(self.value)) == self.goal):
-            distance = 1 
-            return distance + len(self.path)
-
-        if (swap(len(copy.copy(self.value)),0, copy.copy(self.value)) != self.goal):
-            for i in range(len(self.value)):
-                if (self.value[i] != i + 1):
-                    distance += 1
-                if (self.value[i] != len(self.value) - i):
-                    distance -= 1
-            distance = distance #/ 2.0
-        #print math.ceil(distance) + len(self.path)
-        return math.ceil(distance) + len(self.path)
+        occured = True
+        genome = [0] + copy.copy(self.value) + [len(self.value) + 1]
+        for i in range(1, len(self.value) + 2):
+            if not (genome[i - 1] == genome[i] - 1 or genome[i - 1] == genome[i] + 1):
+                distance += 1
+            #if (genome[i - 1] == genome[i] + 1 and genome[i + 1] == genome[i] + 2 and occured):
+                #distance -= 1
+                #occured = False
+        #     if not (genome[i + 1] == genome[i] - 1 or genome[i + 1] == genome[i] + 1):
+        #         distance += 1
+        #distance = distance / 2
+        #print distance
+        return distance + len(self.path)
 
     def CreateChildren(self):
         if not self.children:
