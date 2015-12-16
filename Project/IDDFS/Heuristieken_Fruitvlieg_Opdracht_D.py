@@ -12,11 +12,15 @@ class State(object):
         self.value = value
         self.parent = parent
         self.dist = 0
+        self.swapsize = 0
+        self.pathsize = 0
         if parent:
             self.path = parent.path[:]
             self.path.append(value)
             self.start = parent.start
             self.goal = parent.goal
+            self.swapsize = getswapsize(parent.value, self.value)
+            self.pathsize += self.swapsize + parent.pathsize
         else:
             self.path = [value]
             self.start = start
@@ -41,6 +45,19 @@ def swap(size, pos, genome):
         genome[count + pos] = y[count]
         count += 1
     return genome
+
+def getswapsize(parent, child):
+    swapsize = 0
+    found = False
+    for i in range(len(parent)):
+        if (parent[i] != child[i]):
+            swapsize += 1
+            if (found):
+                if (parent[i - 1] == child[i - 1]):
+                    swapsize += 1
+
+            found = True
+    return swapsize
 
 def f1(genome):
     import copy
@@ -160,7 +177,7 @@ class State_String(State):
     #         if self.value[index2] == index2 + 1:
     #             count_rev += 2
 
-    #     return min(dist, dist_rev) - min(count, count_rev) + len(self.path)
+    #     return min(dist, dist_rev) - min(count, count_rev) + self.pathsize
 
 
     #Method 3: 24 steps
@@ -199,7 +216,7 @@ class State_String(State):
     #         dist += abs(i - self.value.index(gen)) #+ f1(self.value) #+ check_neighbours(self.value)
     #         dist_rev += abs((len(self.value) - 1 - i) - self.value.index(gen))  #+ f1(self.value) #+ check_neighbours(self.value)
 
-    #     return min(dist, dist_rev) + len(self.path)
+    #     return min(dist, dist_rev) 
     
 
     #Method 5: 
@@ -220,7 +237,7 @@ class State_String(State):
     #                 distance -= 1
     #         distance = distance #/ 2.0
     #     #print math.ceil(distance) + len(self.path)
-    #     return math.ceil(distance) + len(self.path)
+    #     return math.ceil(distance) 
     
         #Method 6:    13 Steps !!!
     def GetDist(self):
@@ -236,8 +253,7 @@ class State_String(State):
         #     if not (genome[i + 1] == genome[i] - 1 or genome[i + 1] == genome[i] + 1):
         #         distance += 1
         #distance = distance / 2
-        #print distance
-        return distance + len(self.path)
+        return distance * 5 + self.pathsize #+ len(self.path)
 
     def CreateChildren(self):
         if not self.children:
@@ -248,12 +264,6 @@ class State_String(State):
                     child = State_String(val,self)
                     self.children.append(child)
 
-# [4, 3, 1, 2]
-#  1  1  1  1  = 4/2 = 2
-# [4, 3, 2, 1]
-#              = 1
-# [1, 2, 3, 4]
-
 class AStar_Solver:
     def __init__(self,start,goal):
         self.path = []
@@ -261,6 +271,7 @@ class AStar_Solver:
         self.priorityQueue = PriorityQueue()
         self.start = start
         self.goal = goal
+        self.totalswapsize = 0
 
     def Solve(self):
         startState = State_String(self.start,0,self.start,self.goal)
@@ -273,8 +284,14 @@ class AStar_Solver:
             for child in closestChild.children:
                 if child.value not in self.visitedQueue:
                     count +=1
+
+                    if (len(self.visitedQueue) >= 1000):
+                        print "Could not find goal in timelimit"
+                        return
+
                     if child.value == self.goal:
                         self.path = child.path
+                        print "Pathsize =", child.pathsize
                         break
                     self.priorityQueue.put((child.dist,count,child))
 
@@ -282,28 +299,43 @@ class AStar_Solver:
             print "Goal of ", self.goal, " is not possible for this starting genome!"
         return self.path
 
-if __name__ == '__main__':
-    start_time = time.time()
-    # Generate a random list for start.
-    length = 10
-    #start1 = random.sample(range(1, length + 1), length)
+# if __name__ == '__main__':
+#     start_time = time.time()
+#     # Generate a random list for start.
+#     length = 10
+#     #start1 = random.sample(range(1, length + 1), length)
     
-    # Manual input of a list
-    start1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
-    #start1 = [10, 3, 5, 12, 6, 8, 11, 4, 7, 2, 9, 1]
-    #start1 = [10, 3, 11, 5, 6, 8, 4, 9, 7, 2, 1]
-    #start1 = [5, 3, 7, 4, 1, 6, 9, 2, 10, 8]
-    #start1= [7, 9, 11, 10, 8, 6]
-    #print "    )", start1
-    print start1
-    goal1 = range(1, len(start1) + 1)
+#     # Manual input of a list
+#     start1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
 
+#     print start1
+#     goal1 = range(1, len(start1) + 1)
+
+#     a = AStar_Solver(start1, goal1)
+#     a.Solve()
+
+#     totalswapsize = 0
+#     for i in xrange(len(a.path)):
+#         print " ", i, ")", a.path[i]
+#         # if (i != 0):
+#         #     totalswapsize += getswapsize(a.path[i - i], a.path[i])
+
+#     print " "
+#     print "amount of swaps = ", len(a.path) -1 
+#     print("--- %s seconds ---" % (time.time() - start_time))
+#     print "Vistited = ", len(a.visitedQueue)
+
+
+run_times = 10
+length = 25
+goal1 = range(1, length + 1)
+for i in range(run_times):
+    start_time = time.time()
+    start1 = random.sample(range(1, length + 1), length)
+    print start1
     a = AStar_Solver(start1, goal1)
     a.Solve()
-    for i in xrange(len(a.path)):
-        print " ", i, ")", a.path[i]
-
-    print " "
     print "amount of swaps = ", len(a.path) -1 
     print("--- %s seconds ---" % (time.time() - start_time))
-    print "Vistited = ", len(a.visitedQueue)
+
+
