@@ -15,6 +15,7 @@ class FruitFly(object):
         self.genome = genome
         self.parent = parent
         self.generation = 0
+        
         if parent:
             self.path = parent.path[:]
             self.path.append(genome)
@@ -60,7 +61,7 @@ class FruitFlyMutation(FruitFly):
             if not (genome[i - 1] == genome[i] - 1 or
                     genome[i - 1] == genome[i] + 1):
                 generation += 1
-
+            
         return generation + len(self.path)
 
     def create_children(self):
@@ -120,9 +121,10 @@ def main():
         print " ", i, ")", a.path[i]
 
     print " "
-    print "amount of swaps = ", len(a.path) - 1 
+    print "Amount of swaps:", len(a.path) - 1 
+    print "Visited:        ", len(a.visited_queue)
     print("--- %s seconds ---" % (time.time() - speed))
-    print "Vistited = ", len(a.visited_queue)
+    
 
 if __name__ == '__main__':
     main()
