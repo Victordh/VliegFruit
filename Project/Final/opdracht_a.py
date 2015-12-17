@@ -15,12 +15,15 @@ class FruitFly(object):
         self.genome = genome
         self.parent = parent
         self.generation = 0
+        self.moved_genes = 0
         
         if parent:
             self.path = parent.path[:]
             self.path.append(genome)
             self.start = parent.start
             self.goal = parent.goal
+            self.moved_genes = (get_moved_genes(parent.genome, self.genome) +
+                                parent.moved_genes)
         else:
             self.path = [genome]
             self.start = start
@@ -45,6 +48,22 @@ def mutation(size, pos, genome):
         genome[count + pos] = piece[count]
         count += 1
     return genome
+
+def get_moved_genes(parent, child):
+    """Calculates the amount of moved genes in a mutation."""
+    moved_genes = 0
+    found_mutation = False
+    for i in range(len(parent)):
+        if parent[i] != child[i]:
+            moved_genes += 1
+            
+            # makes sure equal values in the middle of a mutation of odd
+            # length is counted
+            if (found_mutation):
+                if parent[i - 1] == child[i - 1]:
+                    moved_genes += 1
+            found_mutation = True
+    return moved_genes
 
 class FruitFlyMutation(FruitFly):
     """A next generation of a fruit fly, with a mutated genome."""
@@ -74,7 +93,7 @@ class FruitFlyMutation(FruitFly):
                     child = FruitFlyMutation(mutated_genome, self)
                     self.children.append(child)
 
-class AStarSolver:
+class BreakpointSolver:
     """Solver that finds the smallest amount of generations needed to get from
     one fruit fly to one with a different genome"""
     def __init__(self, start, goal):
@@ -83,6 +102,7 @@ class AStarSolver:
         self.priority_queue = PriorityQueue()
         self.start = start
         self.goal = goal
+        self.moved_genes = 0
 
     def solve(self):
         fruit_fly = FruitFlyMutation(self.start, 0, self.start, self.goal)
@@ -97,13 +117,14 @@ class AStarSolver:
                     count +=1
                     if child.genome == self.goal:
                         self.path = child.path
+                        self.moved_genes = child.moved_genes
                         break
                     self.priority_queue.put((child.generation, count,child))
 
         if not self.path:
             print ("Goal of ", self.goal,
                   " is not possible for this starting genome!")
-        return self.path
+        return self
 
 def main():
     """Finds the smallest amount of generations between
@@ -113,26 +134,18 @@ def main():
     start_1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13,
                14, 15, 16, 17, 21, 3, 4, 9]
     goal_1 = range(1, len(start_1) + 1)
-    print start_1
 
     f = open('output_a.txt', 'w')
     
-    a = AStarSolver(start_1, goal_1)
-    a.solve()
-    for i in xrange(len(a.path)):
-        print " ", i, ")", a.path[i]
-        f.write(str(i) + ") " + str(a.path[i]) + "\n")
-    
-    print " "
-    print "----------------------------------------"
-    print " "
-    print "   Amount of generations:", len(a.path) - 1
-    print "Unique mutations checked:", len(a.unique_mutations_checked)
-    print("              Time taken: %.2f seconds" % (time.time() - speed))
+    solver = BreakpointSolver(start_1, goal_1)
+    solver.solve()
+    for i in xrange(len(solver.path)):
+        f.write(str(i) + ") " + str(solver.path[i]) + "\n")
     
     f.write("----------------------------------------\n")
-    f.write("   Amount of generations: " + str(len(a.path) - 1) + "\n")
-    f.write("Unique mutations checked: " + str(len(a.unique_mutations_checked)) + "\n")
+    f.write("   Amount of generations: " + str(len(solver.path) - 1) + "\n")
+    f.write("             Moved genes: " + str(solver.moved_genes) + "\n")
+    f.write("Unique mutations checked: " + str(len(solver.unique_mutations_checked)) + "\n")
     f.write("              Time taken: %.2f seconds" % (time.time() - speed))
     
     f.close()
