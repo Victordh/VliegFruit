@@ -103,143 +103,8 @@ class State_String(State):
     def __init__(self,value,parent,start = 0,goal = 0):
         super(State_String,self).__init__(value,parent,start,goal)
         self.dist = self.GetDist()
-
-    # Heuristics to guess the path length
-    # def GetDist(self):
-    #     if self.value == self.goal:
-    #         return 0
-    #     dist = 0            # The sum of the distance of all numbers to their goal 
-    #     dist_rev = 1       # The sum of the distance of all numbers to their negative goal position 
-    #     # n_dist = 0
-    #     # n_dist_rev = 0
-    #     for i in range(len(self.goal)):
-    #         gen = self.goal[i]
-
-    #         if self.value.index(gen) != i:
-    #             dist += 1
-    #         # dist += abs(i - self.value.index(gen))
-    #         # dist_rev += abs((len(self.value) - 1 - i) - self.value.index(gen))
-
-    #         # n_dist = dist
-    #         # n_dist_rev = dist_rev
-
-    #         # if (gen == self.value[i] + 1 or gen == self.value[i] - 1) :
-    #         #     n_dist -= 1
-    #         #     n_dist_rev -= 1
-                
-    #         # print "gen =", gen
-    #         # print self.value[i] + 1
-    #         # print self.value[i] - 1
-    #         # print self.value
-
-
-    #     #return min(math.sqrt(dist * dist), math.sqrt(dist_rev * dist_rev))
-    #     #print math.floor(math.sqrt((dist) + (dist_rev)))
-    #     #print self.value
-    #     #return math.floor(math.sqrt((dist) + (dist_rev))- 18)
-
-    #     return len(self.path) + dist#min(dist, dist_rev)
-    # Method 5: 
-
-    #Method 1: 22 steps
-    # def GetDist(self):
-    #     if self.value == self.goal:
-    #         return 0
-    #     dist = 0            # The sum of the distance of all numbers to their goal 
-    #     dist_rev = 1       # The sum of the distance of all numbers to their negative goal position 
-    #     for i in range(len(self.goal)):
-    #         gen = self.goal[i]
-    #         dist += abs(i - self.value.index(gen))  #+ f1(self.value) #+ checkFor(self.value)
-    #         dist_rev += abs((len(self.value) - 1 - i) - self.value.index(gen)) #+ f1(self.value) #+ checkFor(self.value) 
-    #         #dist_rev = 100000
-
-
-    #     return min(dist, dist_rev) + len(self.path)
-
-    #Method 2: 25 steps
-    # def GetDist(self):
-    #     if self.value == self.goal:
-    #         return 0
-    #     dist = 0            # The sum of the distance of all numbers to their goal 
-    #     dist_rev = 1       # The sum of the distance of all numbers to their negative goal position 
-    #     for i in range(len(self.goal)):
-    #         gen = self.goal[i]
-    #         dist += abs(i - self.value.index(gen))
-    #         dist_rev += abs((len(self.value) - 1 - i) - self.value.index(gen))
-
-    #     count = 0
-    #     count_rev = 1
-    #     for i in range(len(self.goal) / 2):
-    #         index1 = int(len(self.goal) / 2) + i
-    #         index2 = int(len(self.goal) / 2) - i
-    #         if self.value[index1] == index1 + 1:
-    #             count += 2
-    #         if self.value[index2] == index2 + 1:
-    #             count_rev += 2
-
-    #     return min(dist, dist_rev) - min(count, count_rev) + self.pathsize
-
-
-    #Method 3: 24 steps
-    # def GetDist(self):
-    #     if self.value == self.goal:
-    #         return 0
-    #     x_dist = 0            # The sum of the distance of all numbers to their goal 
-    #     x_dist_rev = 1       # The sum of the distance of all numbers to their negative goal position 
-    #     y_dist = 0
-    #     y_dist_rev = 1
-    #     for i in range(len(self.goal) - 1):
-    #         if self.value[i] > self.value[i+1]:
-    #             x_dist += 1
-
-    #         if self.value[i] < self.value[i+1]:
-    #             x_dist_rev += 1
-    #     for i in range(len(self.goal)):
-    #         gen = self.goal[i]
-    #         y_dist += abs(i - self.value.index(gen))
-    #         y_dist_rev += abs((len(self.value) - 1 - i) - self.value.index(gen))
-
-    #     #print min(math.sqrt(x_dist * x_dist + y_dist * y_dist), math.sqrt(x_dist_rev * x_dist_rev + y_dist_rev * y_dist_rev)) + len(self.path)
-    #     #print self.value
-    #     #print len(self.path)
-    #     return min(math.sqrt(x_dist * x_dist + y_dist * y_dist), math.sqrt(x_dist_rev * x_dist_rev + y_dist_rev * y_dist_rev)) + len(self.path)
-
-    #Method 4: 19 steps
-    # def GetDist(self):
-    #     #print self.value
-    #     if self.value == self.goal:
-    #         return 0
-    #     dist = 0            # The sum of the distance of all numbers to their goal 
-    #     dist_rev = 1       # The sum of the distance of all numbers to their negative goal position 
-    #     for i in range(len(self.goal)):
-    #         gen = self.goal[i]
-    #         dist += abs(i - self.value.index(gen)) #+ f1(self.value) #+ check_neighbours(self.value)
-    #         dist_rev += abs((len(self.value) - 1 - i) - self.value.index(gen))  #+ f1(self.value) #+ check_neighbours(self.value)
-
-    #     return min(dist, dist_rev) 
-    
-
-    #Method 5: 
-    # def GetDist(self):
-    #     distance = 0
-    #     if self.value == self.goal:
-    #         return 0
-    #     #print self.value
-    #     if (swap(len(copy.copy(self.value)),0, copy.copy(self.value)) == self.goal):
-    #         distance = 1 
-    #         return distance + len(self.path)
-
-    #     if (swap(len(copy.copy(self.value)),0, copy.copy(self.value)) != self.goal):
-    #         for i in range(len(self.value)):
-    #             if (self.value[i] != i + 1):
-    #                 distance += 1
-    #             if (self.value[i] != len(self.value) - i):
-    #                 distance -= 1
-    #         distance = distance #/ 2.0
-    #     #print math.ceil(distance) + len(self.path)
-    #     return math.ceil(distance) 
-    
-        #Method 6:    13 Steps !!!
+        
+    #Method 6:    13 Steps !!!
     def GetDist(self):
         distance = 0
         occured = True
@@ -299,8 +164,7 @@ class AStar_Solver:
         return self.path
 
 if __name__ == '__main__':
-
-
+    
     timelimit = input("Set timelimit: ")
 
     ##OUTPUT##
@@ -316,8 +180,7 @@ if __name__ == '__main__':
 
     for i in range(run_times):
         start1 = random.sample(range(1, length + 1), length)
-        #start1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
-        #start1 = [4, 2, 14, 19, 3, 12, 10, 15, 16, 20, 1, 5, 24, 11, 17, 22, 8, 21, 18, 13, 25, 9, 6, 7, 23]
+
         goal1 = range(1, len(start1) + 1)
 
         print start1
@@ -363,56 +226,4 @@ if __name__ == '__main__':
     print "time_list: ", time_list
     print ""
     print "vistited_list: ", vistited_list
-
-#     start_time = time.time()
-#     # Generate a random list for start.
-#     length = 10
-#     #start1 = random.sample(range(1, length + 1), length)
-    
-#     # Manual input of a list
-#     start1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
-
-#     print start1
-#     goal1 = range(1, len(start1) + 1)
-
-#     a = AStar_Solver(start1, goal1)
-#     a.Solve()
-
-#     totalswapsize = 0
-#     for i in xrange(len(a.path)):
-#         print " ", i, ")", a.path[i]
-#         # if (i != 0):
-#         #     totalswapsize += getswapsize(a.path[i - i], a.path[i])
-
-#     print " "
-#     print "amount of swaps = ", len(a.path) -1 
-#     print("--- %s seconds ---" % (time.time() - start_time))
-#     print "Vistited = ", len(a.visitedQueue)
-
-
-    # time_list = []
-    # vistited_list =[]
-    # pathsize_score = []
-
-
-    # run_times = input("How many runs would you like? ")
-    # completed_runs = run_times
-    # length = input("What should be the length of a genome? ")
-    # goal1 = range(1, length + 1)
-    # for i in range(run_times):
-    #     start_time = time.time()
-    #     start1 = random.sample(range(1, length + 1), length)
-
-    #     print start1
-    #     a = AStar_Solver(start1, goal1)
-    #     a.Solve()
-
-    #     print "amount of swaps = ", len(a.path) -1 
-    #     print("--- %s seconds ---" % (time.time() - start_time))
-
-    # print "pathsize scorelist = ", pathsize_score
-
-    # print "Completed Runs = ", completed_runs
-    # print "Failed Runs = ", run_times - completed_runs
-
 

@@ -70,18 +70,18 @@ class FruitFlyMutation(FruitFly):
     def __init__(self, genome, parent, start = 0, goal = 0):
         super(FruitFlyMutation, self).__init__(genome, parent, start, goal)
         self.generation = self.get_generation()
-
+    
     def get_generation(self):
         """Keeps track of the amount of generations."""
         generation = 0
         genome = [0] + copy.copy(self.genome) + [len(self.genome) + 1]
-        
+
         for i in range(1, len(self.genome) + 2):
             if not (genome[i - 1] == genome[i] - 1 or
                     genome[i - 1] == genome[i] + 1):
                 generation += 1
             
-        return generation * 5 + self.moved_genes
+        return generation + len(self.path)
 
     def create_children(self):
         """Creates all possible mutations of the next generation."""
@@ -103,8 +103,10 @@ class BreakpointSolver:
         self.start = start
         self.goal = goal
         self.moved_genes = 0
-
+        
     def solve(self):
+        speed = time.time()
+        time_out = time.time() + time_limit
         fruit_fly = FruitFlyMutation(self.start, 0, self.start, self.goal)
         count = 0
         self.priority_queue.put((0, count, fruit_fly))
@@ -115,38 +117,79 @@ class BreakpointSolver:
             for child in closest_child.children:
                 if child.genome not in self.unique_mutations_checked:
                     count +=1
+
+                    if time.time() > time_out:
+                        print "Could not find goal within the time limit"
+                        return
+
                     if child.genome == self.goal:
                         self.path = child.path
                         self.moved_genes = child.moved_genes
+                        amount_of_generations.append(len(self.path) - 1)
+                        time_taken.append(round(time.time() - speed, 2))
+                        unique_mutations_checked_list.append(
+                                        len(self.unique_mutations_checked))
                         break
                     self.priority_queue.put((child.generation, count,child))
 
         if not self.path:
             print ("Goal of ", self.goal,
                   " is not possible for this starting genome!")
-        return self
+        return self.path
 
 def main():
-    """Finds the smallest amount of moved genes between
-    Drosophila Melanogaster and Drosophila Miranda"""
+    """Finds the smallest amount of generations between
+    100 random genomes and the genome of Drosophila Miranda"""
+    amount_of_generations = []
+    time_taken = []
+    unique_mutations_checked_list = []
     speed = time.time()
+    time_limit = input("Set time limit: ")
     
-    start_1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13,
-               14, 15, 16, 17, 21, 3, 4, 9]
-    goal_1 = range(1, len(start_1) + 1)
+    for i in range(2):
+        start_1 = random.sample(range(1, 26), 25)
+        goal_1 = range(1, len(start_1) + 1)
+        
+        f = open('output_b.txt', 'w')
+        solver = BreakpointSolver(start_1, goal_1)
+        solver.solve()
 
-    f = open('output_c.txt', 'w')
-    
-    solver = BreakpointSolver(start_1, goal_1)
-    solver.solve()
-    for i in xrange(len(solver.path)):
-        f.write(str(i) + ") " + str(solver.path[i]) + "\n")
+        for i in xrange(len(solver.path)):
+            f.write(str(i) + ") " + str(solver.path[i]) + "\n")
+        
+        f.write("----------------------------------------\n")
+        f.write("   Amount of generations: " + str(len(solver.path) - 1) +
+                "\n")
+        f.write("Unique mutations checked: " +
+                str(len(solver.unique_mutations_checked)) + "\n")
+        f.write("              Time taken: %.2f seconds" %
+                (time.time() - speed))
+        f.write("   Time limit in seconds: " + str(time_limit))
+        
+    f.write("Completed genomes: " + str(len(amount_of_generations)))
 
-    f.write("----------------------------------------\n")
-    f.write("   Amount of generations: " + str(len(solver.path) - 1) + "\n")
-    f.write("             Moved genes: " + str(solver.moved_genes) + "\n")
-    f.write("Unique mutations checked: " + str(len(solver.unique_mutations_checked)) + "\n")
-    f.write("              Time taken: %.2f seconds" % (time.time() - speed))
+    f.write("\n\nAmount of generations:\n")
+    f.write("Max: " + str(max(amount_of_generations)) + "\n")
+    f.write("Min: " + str(min(amount_of_generations)) + "\n")
+    f.write("Mean: " + str((sum(amount_of_generations) /
+                       float(len(amount_of_generations)))))
+
+    f.write("\n\nTime taken (in seconds):\n")
+    f.write("Max: " + str(max(time_taken)) + "\n")
+    f.write("Min: " + str(min(time_taken)) + "\n")
+    f.write("Mean: " + str(sum(time_taken) / float(len(time_taken))))
+
+    f.write("\n\nUnique mutations checked:\n")
+    f.write("Max: " + str(max(unique_mutations_checked_list) + "\n"))
+    f.write("Min; " + str(min(unique_mutations_checked_list) + "\n"))
+    f.write("Mean: " + str((sum(unique_mutations_checked_list) /
+                       float(len(unique_mutations_checked_list)))))
+
+    f.write("\n\n")
+    f.write("List of amount of generations: " + str(amount_of_generations) + "\n")
+    f.write("List of time taken: " + str(time_taken) + "\n")
+    f.write("List of amount of unique mutations checked: " +
+            str(unique_mutations_checked_list))
     
     f.close()
 
