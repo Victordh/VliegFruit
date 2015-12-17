@@ -81,7 +81,8 @@ class FruitFlyMutation(FruitFly):
                     genome[i - 1] == genome[i] + 1):
                 generation += 1
             
-        return generation * 5 + self.moved_genes
+        #return generation + len(self.path)         # opdracht A
+        return generation * 5 + self.moved_genes    # opdracht C
 
     def create_children(self):
         """Creates all possible mutations of the next generation."""
