@@ -81,8 +81,7 @@ class FruitFlyMutation(FruitFly):
                     genome[i - 1] == genome[i] + 1):
                 generation += 1
             
-        #return generation + len(self.path)         # opdracht A
-        return generation * 5 + self.moved_genes    # opdracht C
+        return generation * 5 + self.moved_genes
 
     def create_children(self):
         """Creates all possible mutations of the next generation."""
@@ -94,7 +93,7 @@ class FruitFlyMutation(FruitFly):
                     child = FruitFlyMutation(mutated_genome, self)
                     self.children.append(child)
 
-class AStarSolver:
+class BreakpointSolver:
     """Solver that finds the smallest amount of generations needed to get from
     one fruit fly to one with a different genome"""
     def __init__(self, start, goal):
@@ -135,28 +134,18 @@ def main():
     start_1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13,
                14, 15, 16, 17, 21, 3, 4, 9]
     goal_1 = range(1, len(start_1) + 1)
-    print start_1
 
     f = open('output_c.txt', 'w')
     
-    a = AStarSolver(start_1, goal_1)
-    a.solve()
-    for i in xrange(len(a.path)):
-        print " ", i, ")", a.path[i]
-        f.write(str(i) + ") " + str(a.path[i]) + "\n")
+    solver = BreakpointSolver(start_1, goal_1)
+    solver.solve()
+    for i in xrange(len(solver.path)):
+        f.write(str(i) + ") " + str(solver.path[i]) + "\n")
 
-    print " "
-    print "----------------------------------------"
-    print " "
-    print "   Amount of generations:", len(a.path) - 1
-    print "             Moved genes:", a.moved_genes
-    print "Unique mutations checked:", len(a.unique_mutations_checked)
-    print("              Time taken: %.2f seconds" % (time.time() - speed))
-    
     f.write("----------------------------------------\n")
-    f.write("   Amount of generations: " + str(len(a.path) - 1) + "\n")
-    f.write("             Moved genes: " + str(a.moved_genes) + "\n")
-    f.write("Unique mutations checked: " + str(len(a.unique_mutations_checked)) + "\n")
+    f.write("   Amount of generations: " + str(len(solver.path) - 1) + "\n")
+    f.write("             Moved genes: " + str(solver.moved_genes) + "\n")
+    f.write("Unique mutations checked: " + str(len(solver.unique_mutations_checked)) + "\n")
     f.write("              Time taken: %.2f seconds" % (time.time() - speed))
     
     f.close()
