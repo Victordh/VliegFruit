@@ -79,7 +79,7 @@ class AStarSolver:
     one fruit fly to one with a different genome"""
     def __init__(self, start, goal):
         self.path = []
-        self.visited_queue = []
+        self.unique_mutations_checked = []
         self.priority_queue = PriorityQueue()
         self.start = start
         self.goal = goal
@@ -91,9 +91,9 @@ class AStarSolver:
         while (not self.path and self.priority_queue.qsize()):
             closest_child = self.priority_queue.get()[2]
             closest_child.create_children()
-            self.visited_queue.append(closest_child.genome)
+            self.unique_mutations_checked.append(closest_child.genome)
             for child in closest_child.children:
-                if child.genome not in self.visited_queue:
+                if child.genome not in self.unique_mutations_checked:
                     count +=1
                     if child.genome == self.goal:
                         self.path = child.path
@@ -119,11 +119,13 @@ def main():
     a.solve()
     for i in xrange(len(a.path)):
         print " ", i, ")", a.path[i]
-
+    
     print " "
-    print "Amount of swaps:", len(a.path) - 1 
-    print "Visited:        ", len(a.visited_queue)
-    print("--- %s seconds ---" % (time.time() - speed))
+    print "----------------------------------------"
+    print " "
+    print "   Amount of generations:", len(a.path) - 1
+    print "Unique mutations checked:", len(a.unique_mutations_checked)
+    print("              Time taken: %.2f seconds" % (time.time() - speed))
     
 
 if __name__ == '__main__':
