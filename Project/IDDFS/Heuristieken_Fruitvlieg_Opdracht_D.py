@@ -268,7 +268,8 @@ class AStar_Solver:
         self.totalswapsize = 0
 
     def Solve(self):
-        timeout = time.time() + 60*1
+        start_time = time.time()
+        timeout = time.time() + timelimit
         startState = State_String(self.start,0,self.start,self.goal)
         count = 0
         self.priorityQueue.put((0,count,startState))
@@ -282,12 +283,13 @@ class AStar_Solver:
 
                     if time.time() > timeout:
                         print "Could not find goal in timelimit"
-                        completed_runs -= 1
                         return
 
                     if child.value == self.goal:
                         self.path = child.path
                         pathsize_score.append(child.pathsize)
+                        time_list.append(round(time.time() - start_time, 2))
+                        vistited_list.append(len(a.visitedQueue))
                         print "Pathsize =", child.pathsize
                         break
                     self.priorityQueue.put((child.dist,count,child))
@@ -296,7 +298,72 @@ class AStar_Solver:
             print "Goal of ", self.goal, " is not possible for this starting genome!"
         return self.path
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
+
+
+    timelimit = input("Set timelimit: ")
+
+    ##OUTPUT##
+    pathsize_score = []
+    time_list = []
+    vistited_list =[]
+
+    start_time = time.time()
+    
+    run_times = input("Set amount of runs: ")
+    completed_runs = run_times
+    length = input("Set genome length: ")
+
+    for i in range(run_times):
+        start1 = random.sample(range(1, length + 1), length)
+        #start1 = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
+        #start1 = [4, 2, 14, 19, 3, 12, 10, 15, 16, 20, 1, 5, 24, 11, 17, 22, 8, 21, 18, 13, 25, 9, 6, 7, 23]
+        goal1 = range(1, len(start1) + 1)
+
+        print start1
+        a = AStar_Solver(start1, goal1)
+        a.Solve()
+
+        for i in xrange(len(a.path)):
+            print " ", i, ")", a.path[i]
+
+        print " "
+        print "amount of swaps = ", len(a.path) -1 
+        print("--- %s seconds ---" % (time.time() - start_time))
+        print "Vistited = ", len(a.visitedQueue)
+        
+
+    print ""
+    print "Completed genomes =", len(pathsize_score)
+    print "TimeLimit was = ", timelimit, "seconds per genome"
+    print ""
+    print "Path Value/Cost:"
+    print ""
+    print "Max = ", max(pathsize_score)
+    print "Min = ", min(pathsize_score)
+    print "Mean = ", sum(pathsize_score) / float(len(pathsize_score))
+
+    print ""
+    print "Time (seconds):"
+    print ""
+    print "Max = ", max(time_list)
+    print "Min = ", min(time_list)
+    print "Mean = ", sum(time_list) / float(len(time_list))
+
+    print ""
+    print "Visited:"
+    print ""
+    print "Max = ", max(vistited_list)
+    print "Min = ", min(vistited_list)
+    print "Mean = ", sum(vistited_list) / float(len(vistited_list))
+
+    print ""
+    print "pathsize_score: ", pathsize_score
+    print ""
+    print "time_list: ", time_list
+    print ""
+    print "vistited_list: ", vistited_list
+
 #     start_time = time.time()
 #     # Generate a random list for start.
 #     length = 10
@@ -322,27 +389,30 @@ class AStar_Solver:
 #     print("--- %s seconds ---" % (time.time() - start_time))
 #     print "Vistited = ", len(a.visitedQueue)
 
-pathsize_score = []
-run_times = input("How many runs would you like? ")
-completed_runs = run_times
-length = input("What should be the length of a genome? ")
-goal1 = range(1, length + 1)
-for i in range(run_times):
-    start_time = time.time()
-    start1 = random.sample(range(1, length + 1), length)
 
-    print start1
-    a = AStar_Solver(start1, goal1)
-    a.Solve()
+    # time_list = []
+    # vistited_list =[]
+    # pathsize_score = []
 
-    print "amount of swaps = ", len(a.path) -1 
-    print("--- %s seconds ---" % (time.time() - start_time))
 
-print "pathsize scorelist = ", pathsize_score
-print "Max = ", max(pathsize_score)
-print "Min = ", min(pathsize_score)
-print "Mean = ", sum(pathsize_score) / float(len(pathsize_score))
-print "Completed Runs = ", completed_runs
-print "Failed Runs = ", run_times - completed_runs
+    # run_times = input("How many runs would you like? ")
+    # completed_runs = run_times
+    # length = input("What should be the length of a genome? ")
+    # goal1 = range(1, length + 1)
+    # for i in range(run_times):
+    #     start_time = time.time()
+    #     start1 = random.sample(range(1, length + 1), length)
+
+    #     print start1
+    #     a = AStar_Solver(start1, goal1)
+    #     a.Solve()
+
+    #     print "amount of swaps = ", len(a.path) -1 
+    #     print("--- %s seconds ---" % (time.time() - start_time))
+
+    # print "pathsize scorelist = ", pathsize_score
+
+    # print "Completed Runs = ", completed_runs
+    # print "Failed Runs = ", run_times - completed_runs
 
 
