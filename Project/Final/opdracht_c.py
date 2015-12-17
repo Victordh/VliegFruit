@@ -137,10 +137,13 @@ def main():
     goal_1 = range(1, len(start_1) + 1)
     print start_1
 
+    f = open('output_c.txt', 'w')
+    
     a = AStarSolver(start_1, goal_1)
     a.solve()
     for i in xrange(len(a.path)):
         print " ", i, ")", a.path[i]
+        f.write(str(i) + ") " + str(a.path[i]) + "\n")
 
     print " "
     print "----------------------------------------"
@@ -149,6 +152,14 @@ def main():
     print "             Moved genes:", a.moved_genes
     print "Unique mutations checked:", len(a.unique_mutations_checked)
     print("              Time taken: %.2f seconds" % (time.time() - speed))
+    
+    f.write("----------------------------------------\n")
+    f.write("   Amount of generations: " + str(len(a.path) - 1) + "\n")
+    f.write("             Moved genes: " + str(a.moved_genes) + "\n")
+    f.write("Unique mutations checked: " + str(len(a.unique_mutations_checked)) + "\n")
+    f.write("              Time taken: %.2f seconds" % (time.time() - speed))
+    
+    f.close()
 
 if __name__ == '__main__':
     main()
