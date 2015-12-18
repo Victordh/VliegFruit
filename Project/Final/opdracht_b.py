@@ -6,7 +6,6 @@ import sys
 import math
 import time
 
-
 class FruitFly(object):
     """A fruit fly with a certain genome and references to
     previous and future generations."""
@@ -140,17 +139,14 @@ class BreakpointSolver:
 def main():
     """Finds the smallest amount of generations between
     100 random genomes and the genome of Drosophila Miranda"""
-    amount_of_generations = []
-    time_taken = []
-    unique_mutations_checked_list = []
-    speed = time.time()
-    time_limit = input("Set time limit: ")
     
-    for i in range(2):
+    total_speed = time.time()
+    f = open('output_b.txt', 'w')
+    
+    for i in range(5):
         start_1 = random.sample(range(1, 26), 25)
         goal_1 = range(1, len(start_1) + 1)
         
-        f = open('output_b.txt', 'w')
         solver = BreakpointSolver(start_1, goal_1)
         solver.solve()
 
@@ -163,35 +159,40 @@ def main():
         f.write("Unique mutations checked: " +
                 str(len(solver.unique_mutations_checked)) + "\n")
         f.write("              Time taken: %.2f seconds" %
-                (time.time() - speed))
-        f.write("   Time limit in seconds: " + str(time_limit))
+                (time.time() - total_speed) + "\n")
+        f.write("   Time limit in seconds: " + str(time_limit) + "\n\n")
         
-    f.write("Completed genomes: " + str(len(amount_of_generations)))
+    f.write("\n\nCompleted genomes: " + str(len(amount_of_generations)))
 
     f.write("\n\nAmount of generations:\n")
-    f.write("Max: " + str(max(amount_of_generations)) + "\n")
-    f.write("Min: " + str(min(amount_of_generations)) + "\n")
+    f.write(" Max: " + str(max(amount_of_generations)) + "\n")
+    f.write(" Min: " + str(min(amount_of_generations)) + "\n")
     f.write("Mean: " + str((sum(amount_of_generations) /
                        float(len(amount_of_generations)))))
 
     f.write("\n\nTime taken (in seconds):\n")
-    f.write("Max: " + str(max(time_taken)) + "\n")
-    f.write("Min: " + str(min(time_taken)) + "\n")
+    f.write(" Max: " + str(max(time_taken)) + "\n")
+    f.write(" Min: " + str(min(time_taken)) + "\n")
     f.write("Mean: " + str(sum(time_taken) / float(len(time_taken))))
 
     f.write("\n\nUnique mutations checked:\n")
-    f.write("Max: " + str(max(unique_mutations_checked_list) + "\n"))
-    f.write("Min; " + str(min(unique_mutations_checked_list) + "\n"))
-    f.write("Mean: " + str((sum(unique_mutations_checked_list) /
-                       float(len(unique_mutations_checked_list)))))
+    f.write(" Max: " + str(max(unique_mutations_checked_list)) + "\n")
+    f.write(" Min: " + str(min(unique_mutations_checked_list)) + "\n")
+    f.write("Mean: " + str(sum(unique_mutations_checked_list) /
+                       float(len(unique_mutations_checked_list))))
 
     f.write("\n\n")
-    f.write("List of amount of generations: " + str(amount_of_generations) + "\n")
-    f.write("List of time taken: " + str(time_taken) + "\n")
-    f.write("List of amount of unique mutations checked: " +
+    f.write("List of amount of generations:\n" + str(amount_of_generations) + "\n")
+    f.write("List of time taken:\n" + str(time_taken) + "\n")
+    f.write("List of amount of unique mutations checked:\n" +
             str(unique_mutations_checked_list))
     
     f.close()
 
 if __name__ == '__main__':
+    time_limit = 5
+    amount_of_generations = []
+    time_taken = []
+    unique_mutations_checked_list = []
+    
     main()
