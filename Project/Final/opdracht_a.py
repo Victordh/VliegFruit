@@ -70,7 +70,7 @@ class FruitFlyMutation(FruitFly):
     def __init__(self, genome, parent, start = 0, goal = 0):
         super(FruitFlyMutation, self).__init__(genome, parent, start, goal)
         self.generation = self.get_generation()
-    
+
     def get_generation(self):
         """Keeps track of the amount of generations."""
         generation = 0
@@ -140,13 +140,15 @@ def main():
     solver = BreakpointSolver(start_1, goal_1)
     solver.solve()
     for i in xrange(len(solver.path)):
+        if i < 10:
+                f.write(" ")
         f.write(str(i) + ") " + str(solver.path[i]) + "\n")
     
-    f.write("----------------------------------------\n")
-    f.write("   Amount of generations: " + str(len(solver.path) - 1) + "\n")
+    f.write("\n   Amount of generations: " + str(len(solver.path) - 1) + "\n")
     f.write("             Moved genes: " + str(solver.moved_genes) + "\n")
-    f.write("Unique mutations checked: " + str(len(solver.unique_mutations_checked)) + "\n")
-    f.write("              Time taken: %.2f seconds" % (time.time() - speed))
+    f.write("Unique mutations checked: " +
+            str(len(solver.unique_mutations_checked)) + "\n")
+    f.write("   Time taken in seconds: %.2f" % (time.time() - speed))
     
     f.close()
 
