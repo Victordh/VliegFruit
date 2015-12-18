@@ -29,7 +29,7 @@ class FruitFly(object):
             self.start = start
             self.goal = goal
 
-    def get_generation(self):
+    def distance_to_goal(self):
         pass
 
     def create_children(self):
@@ -69,10 +69,11 @@ class FruitFlyMutation(FruitFly):
     """A next generation of a fruit fly, with a mutated genome."""
     def __init__(self, genome, parent, start = 0, goal = 0):
         super(FruitFlyMutation, self).__init__(genome, parent, start, goal)
-        self.generation = self.get_generation()
+        self.generation = self.distance_to_goal()
 
-    def get_generation(self):
-        """Keeps track of the amount of generations."""
+    def distance_to_goal(self):
+        """Calculates the distance to the goal. A lower than actual value is
+        estimated, to make sure the lowest amount of generations is used."""
         generation = 0
         genome = [0] + copy.copy(self.genome) + [len(self.genome) + 1]
 
